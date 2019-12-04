@@ -3,7 +3,7 @@
 
 # # Emojify! 
 # 
-# Welcome to the second assignment of Week 2. You are going to use word vector representations to build an Emojifier. 
+# You are going to use word vector representations to build an Emojifier. 
 # 
 # Have you ever wanted to make your text messages more expressive? Your emojifier app will help you do that. So rather than writing "Congratulations on the promotion! Lets get coffee and talk. Love you!" the emojifier can automatically turn this into "Congratulations on the promotion! 👍 Lets get coffee and talk. ☕️ Love you! ❤️"
 # 
@@ -61,11 +61,7 @@ print(X_train[index], label_to_emoji(Y_train[index]))
 # 
 # In this part, you are going to implement a baseline model called "Emojifier-v1".  
 # 
-# <center>
-# <img src="images/image_1.png" style="width:900px;height:300px;">
-# <caption><center> **Figure 2**: Baseline model (Emojifier-V1).</center></caption>
-# </center>
-# 
+
 # The input of the model is a string corresponding to a sentence (e.g. "I love you). In the code, the output will be a probability vector of shape (1,5), that you then pass in an argmax layer to extract the index of the most likely emoji output.
 
 # To get our labels into a format suitable for training a softmax classifier, lets convert $Y$ from its current shape  $(m, 1)$ into a "one-hot representation" $(m, 5)$, where each row is a one-hot vector giving the label of one example, You can do so using this next code snipper. Here, `Y_oh` stands for "Y-one-hot" in the variable names `Y_oh_train` and `Y_oh_test`: 
@@ -228,7 +224,6 @@ def model(X, Y, word_to_vec_map, learning_rate = 0.01, num_iterations = 400):
     for t in range(num_iterations):                       # Loop over the number of iterations
         for i in range(m):                                # Loop over the training examples
             
-            ### START CODE HERE ### (≈ 4 lines of code)
             # Average the word vectors of the words from the i'th training example
             avg = sentence_to_avg(X[i], word_to_vec_map)
 
@@ -238,7 +233,7 @@ def model(X, Y, word_to_vec_map, learning_rate = 0.01, num_iterations = 400):
 
             # Compute cost using the i'th training label's one hot representation and "A" (the output of the softmax)
             cost = -np.sum(Y_oh[i]*np.log(a))
-            ### END CODE HERE ###
+           
             
             # Compute gradients 
             dz = a - Y_oh[i]
@@ -567,7 +562,7 @@ def pretrained_embedding_layer(word_to_vec_map, word_to_index):
     vocab_len = len(word_to_index) + 1                  # adding 1 to fit Keras embedding (requirement)
     emb_dim = word_to_vec_map["cucumber"].shape[0]      # define dimensionality of your GloVe word vectors (= 50)
     
-    ### START CODE HERE ###
+   
     # Initialize the embedding matrix as a numpy array of zeros of shape (vocab_len, dimensions of word vectors = emb_dim)
     emb_matrix = np.zeros((vocab_len,emb_dim))
     
@@ -577,7 +572,7 @@ def pretrained_embedding_layer(word_to_vec_map, word_to_index):
 
     # Define Keras embedding layer with the correct output/input sizes, make it non-trainable. Use Embedding(...). Make sure to set trainable=False. 
     embedding_layer = Embedding(vocab_len,emb_dim,trainable=False)
-    ### END CODE HERE ###
+    
 
     # Build the embedding layer, it is required before setting the weights of the embedding layer. Do not modify the "None".
     embedding_layer.build((None,))
@@ -758,11 +753,3 @@ print(x_test[0] +' '+  label_to_emoji(np.argmax(model.predict(X_test_indices))))
 # 
 # 
 
-# ## Acknowledgments
-# 
-# Thanks to Alison Darcy and the Woebot team for their advice on the creation of this assignment. Woebot is a chatbot friend that is ready to speak with you 24/7. As part of Woebot's technology, it uses word embeddings to understand the emotions of what you say. You can play with it by going to http://woebot.io
-# 
-# <img src="images/woebot.png" style="width:600px;height:300px;">
-# 
-# 
-# 
